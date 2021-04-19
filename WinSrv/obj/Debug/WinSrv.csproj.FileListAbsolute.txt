@@ -1,0 +1,7 @@
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\bin\Debug\WinSrv.exe.config
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\bin\Debug\WinSrv.exe
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\bin\Debug\WinSrv.pdb
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.csprojAssemblyReference.cache
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.csproj.CoreCompileInputs.cache
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.exe
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.pdb
