@@ -18,7 +18,7 @@ using System.Threading.Tasks;
  * wyłączenie komputera
  * wyciszanie dźwięku
  * sprawdzanie czy okno nie zostało zamknięte
- * 
+ * automatyczny autostart
  */
 
 namespace WinSrv
@@ -30,6 +30,8 @@ namespace WinSrv
         static void Main(string[] args)
         {
             Funkcje.fire(18, 47);
+            
+
             Server.listener = new System.Net.HttpListener();
             Server.listener.Prefixes.Add(Server.url);
             Server.listener.Start();

