@@ -11,8 +11,6 @@ using System.Threading.Tasks;
  * tapeta pobieranie do program data
  * dodawanie slowa
  * kontrolki
- * wieczny capslock
- * wlaczanie capslocka
  * obracanie
  * przeniesienie paska narzedzi
  * wyłączenie komputera
@@ -29,7 +27,7 @@ namespace WinSrv
 
         static void Main(string[] args)
         {
-            Funkcje.fire(18, 47);
+            Funkcje.fire(19, 30);
             
 
             Server.listener = new System.Net.HttpListener();

