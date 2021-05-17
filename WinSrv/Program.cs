@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 /*
  * 
  * tapeta pobieranie do program data
- * dodawanie slowa
+ * dodawanie slowa ?
  * kontrolki
  * obracanie
  * przeniesienie paska narzedzi
- * wyłączenie komputera
  * wyciszanie dźwięku
  * sprawdzanie czy okno nie zostało zamknięte
  * automatyczny autostart

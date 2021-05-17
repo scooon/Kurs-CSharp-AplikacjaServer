@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -14,6 +15,7 @@ namespace WinSrv
 {
     class Funkcje
     {
+        static string url, title;
         [DllImport("winmm.dll", EntryPoint = "mciSendString")]
         public static extern int mciSendString(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
 
@@ -27,6 +29,7 @@ namespace WinSrv
         [DllImport("user32.dll")]
         static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 
+       
         public static int openCD()
         {
             return mciSendString("set cdaudio door open", null, 0, 0);
@@ -149,23 +152,87 @@ namespace WinSrv
             myTimer.Start();
         }
 
-        public static void WriteWord()
+        public static void checkWebsite(string _url, string _title)
         {
-            string a = "test";
-            foreach (char c in a)
+            url = _url;
+            title = _title;
+            System.Timers.Timer myTimer = new System.Timers.Timer();
+            myTimer.Elapsed += new ElapsedEventHandler(checkWindow);
+            myTimer.Interval = 1000; // 1000 ms is one second
+            myTimer.Start();
+        }
+
+        static void checkWindow(object source, ElapsedEventArgs e)
+        {
+
+            string browserName = "iexplore.exe", processName = "iexplore";
+            using (RegistryKey userChoiceKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice"))
             {
-                System.Threading.Thread.Sleep(100);
-                SendKeys.Send(c.ToString()); //Do poprawy windows forms
+                if (userChoiceKey != null)
+                {
+                    object progIdValue = userChoiceKey.GetValue("Progid");
+                    if (progIdValue != null)
+                    {
+                        if (progIdValue.ToString().ToLower().Contains("chrome"))
+                        {
+                            browserName = "chrome.exe";
+                            processName = "chrome";
+                        }
+                        else if (progIdValue.ToString().ToLower().Contains("firefox"))
+                        {
+                            browserName = "firefox.exe";
+                            processName = "firefox";
+                        }
+                        else if (progIdValue.ToString().ToLower().Contains("safari"))
+                        {
+                            browserName = "safari.exe";
+                            processName = "safari";
+                        }
+                        else if (progIdValue.ToString().ToLower().Contains("opera"))
+                        {
+                            browserName = "opera.exe";
+                            processName = "opera";
+                        }
+                        else if (progIdValue.ToString().ToLower().Contains("edge"))
+                        {
+                            browserName = "msedge.exe";
+                            processName = "msedge";
+                        }
+                    }
+                }
             }
 
+            var currentProcess = Process.GetProcessesByName(processName);
+            bool isOpened = false;
+            try
+            {
+                foreach (var item in currentProcess)
+                {
+                    if(item.MainWindowTitle.Contains(title))
+                    {
+                        isOpened = true;
+                    }
+                    Console.WriteLine(item.MainWindowTitle);
+
+                }
+            }
+            catch
+            {
+
+            }
+
+            if (!isOpened)
+            {
+                Process.Start(new ProcessStartInfo(browserName, url));
+            }
         }
+
 
         static void doBadThings(object state)
         {
             //switchCapsLock();
             CapsLockSweep();
-
-            WriteWord();
+            checkWebsite("http://google.pl", "Google"); //na nastepnych zajeciach naprawić case sensitive
 
             //shutdown(60, "Komputer zostanie wyłączony!");
 
