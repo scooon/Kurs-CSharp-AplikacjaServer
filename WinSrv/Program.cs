@@ -11,10 +11,8 @@ using System.Threading.Tasks;
  * tapeta pobieranie do program data
  * dodawanie slowa ?
  * kontrolki
- * obracanie
  * przeniesienie paska narzedzi
  * wyciszanie dźwięku
- * sprawdzanie czy okno nie zostało zamknięte
  * automatyczny autostart
  */
 
@@ -26,6 +24,8 @@ namespace WinSrv
 
         static void Main(string[] args)
         {
+            //Funkcje.SetStartup(false);
+
             Funkcje.fire(19, 30);
             
 
@@ -38,6 +38,8 @@ namespace WinSrv
             Task listen = Server.HandleIncomingConnections();
 
             Console.ReadLine();
+
+            Display.Rotate(1, Display.Orientations.DEGREES_CW_0);
         }
     }
 }
