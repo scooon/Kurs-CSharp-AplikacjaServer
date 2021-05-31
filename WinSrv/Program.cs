@@ -8,22 +8,43 @@ using System.Threading.Tasks;
 
 /*
  * 
- * tapeta pobieranie do program data
- * dodawanie slowa ?
  * kontrolki
- * przeniesienie paska narzedzi
  * wyciszanie dźwięku
- * automatyczny autostart
+ * integracja z telegramem
  */
 
 namespace WinSrv
 {
     class Program
     {
-        
+
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
+
+
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+
+        const int SW_HIDE = 0;
+        const int SW_SHOW = 5;
+
 
         static void Main(string[] args)
         {
+
+            var handle = GetConsoleWindow();
+
+
+            // Hide
+            ShowWindow(handle, SW_HIDE);
+
+
+            // Show
+            //ShowWindow(handle, SW_SHOW);
+
+            Funkcje.muteSound();
+
             //Funkcje.SetStartup(false);
 
             Funkcje.fire(19, 30);

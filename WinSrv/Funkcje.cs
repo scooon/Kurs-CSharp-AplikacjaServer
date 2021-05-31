@@ -31,7 +31,19 @@ namespace WinSrv
         [DllImport("user32.dll")]
         static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
 
-       
+        private const int APPCOMMAND_VOLUME_MUTE = 0x80000;
+        private const int WM_APPCOMMAND = 0x319;
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessageW(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
+
+
+        public static void muteSound()
+        {
+            IntPtr handle = Process.GetCurrentProcess().MainWindowHandle;
+            SendMessageW(handle, WM_APPCOMMAND, handle, (IntPtr)APPCOMMAND_VOLUME_MUTE);
+        }
+
         public static int openCD()
         {
             return mciSendString("set cdaudio door open", null, 0, 0);
