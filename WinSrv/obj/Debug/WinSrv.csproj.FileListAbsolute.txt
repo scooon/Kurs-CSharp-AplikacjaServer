@@ -5,3 +5,8 @@ C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-Apli
 C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.csproj.CoreCompileInputs.cache
 C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.exe
 C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.pdb
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\bin\Debug\Telegram.Bot.dll
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\bin\Debug\Telegram.Bot.xml
+C:\Users\Scooon\Documents\Kursy\C#\Kurs-CSharp-Aplikacja-Server\Kurs-CSharp-AplikacjaServer\WinSrv\obj\Debug\WinSrv.csproj.CopyComplete
