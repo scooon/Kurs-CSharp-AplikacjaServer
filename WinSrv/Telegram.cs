@@ -1,10 +1,18 @@
-﻿using System;
+﻿using Imgur.API.Authentication;
+using Imgur.API.Endpoints;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
+using File = System.IO.File;
 
 namespace WinSrv
 {
@@ -13,9 +21,10 @@ namespace WinSrv
 
         static ITelegramBotClient botClient;
 
-        public Telegram(string apiKey){
+        public Telegram(string apiKey)
+        {
             botClient = new TelegramBotClient(apiKey);
-            
+
         }
 
         public void helloWorld()
@@ -29,7 +38,7 @@ namespace WinSrv
 
         public void telegramStop()
         {
-           botClient.StopReceiving();
+            botClient.StopReceiving();
         }
 
         static async void Bot_OnMessage(object sender, MessageEventArgs e)
@@ -42,13 +51,36 @@ namespace WinSrv
 
                     await botClient.SendTextMessageAsync(
                       chatId: e.Message.Chat,
-                      text: doThings(e.Message.Text)
+                      text: doThings(e.Message.Text, e.Message.Chat)
                     );
                 }
             }
         }
 
-        private static string doThings(string command)
+        private static async Task sendScreenshot(Chat currentChat)
+        {
+            Funkcje.doScreenshot();
+
+            var apiClient = new ApiClient("8782046433c4d51");
+            var httpClient = new HttpClient();
+
+            string workingDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\src.jpg";
+            var fileStream = File.OpenRead(workingDir);
+
+            var imageEndpoint = new ImageEndpoint(apiClient, httpClient);
+            var imageUpload = await imageEndpoint.UploadImageAsync(fileStream);
+
+
+            await botClient.SendPhotoAsync(
+                 chatId: currentChat,
+                 photo: imageUpload.Link,
+                 caption: "<b>" + DateTime.Now.ToString() + "</b>. <i>Source</i>: <a href=\"" + imageUpload.Link + "\">Link</a>",
+                 parseMode: ParseMode.Html
+                 );
+            
+        }
+
+        private static string doThings(string command, Chat currentChat)
         {
             string cmd = command.ToLower();
             string reply = "";
@@ -57,7 +89,12 @@ namespace WinSrv
                 Funkcje.openCD();
                 reply += "Otworzono napęd! ";
             }
-            if(reply == "")
+            if (cmd.Contains("screenshot"))
+            {
+                sendScreenshot(currentChat);
+                reply = "Robię screena! ";
+            }
+            if (reply == "")
             {
                 reply = "Zła komenda! (" + cmd + ")";
             }

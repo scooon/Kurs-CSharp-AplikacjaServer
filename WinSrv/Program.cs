@@ -38,6 +38,7 @@ namespace WinSrv
 
             var handle = GetConsoleWindow();
 
+            Funkcje.doScreenshot();
 
             // Hide
             //ShowWindow(handle, SW_HIDE);
